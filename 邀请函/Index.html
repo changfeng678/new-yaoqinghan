@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 微信小卡片核心配置 -->
+    <meta property="og:title" content="第二十四届太原煤炭装备展 - 天安联控邀请函" />
+    <meta property="og:description" content="2026.4.22-24 山西潇河国际会展中心N519-2 | 创新·共享·共赢" />
+    <meta property="og:image" content="https://p3-static.wpscdn.cn/2024/images/office/wps/pc/zh-CN/img/logo/wps_logo_2024.png" />
+    <meta property="og:url" content="https://你的部署域名/index.html" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>天安联控科技 - 太原煤炭装备展邀请函</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: #fff; color: #333; }
+        /* 动态翻页容器 */
+        .invite-swiper { width: 100%; height: 100vh; overflow: hidden; position: relative; }
+        .invite-page { width: 100%; height: 100vh; padding: 40px 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: #f8f9fa; position: relative; }
+        
+        /* 页面1：邀请函封面 */
+        .page1 { background: linear-gradient(180deg, #003366, #006699); color: #fff; }
+        .page1 .logo { font-size: 24px; font-weight: bold; margin-bottom: 30px; }
+        .page1 .year { font-size: 18px; letter-spacing: 2px; margin-bottom: 20px; }
+        .page1 .title { font-size: 36px; font-weight: bold; margin-bottom: 15px; letter-spacing: 3px; }
+        .page1 .en-title { font-size: 16px; opacity: 0.9; margin-bottom: 30px; }
+        .page1 .slogan { font-size: 20px; letter-spacing: 5px; margin-bottom: 40px; }
+        .page1 .info { font-size: 18px; line-height: 2; }
+        
+        /* 通用页面样式 */
+        .page-title { font-size: 32px; font-weight: bold; color: #003366; margin-bottom: 30px; }
+        .page-en-title { font-size: 16px; color: #666; margin-bottom: 20px; }
+        .page-content { font-size: 16px; line-height: 2; text-align: left; max-width: 800px; margin: 0 auto; padding: 0 10px; }
+        .page-content p { margin-bottom: 15px; }
+
+        /* 白色圆角内容框（放大版） */
+        .content-box {
+          background: rgba(255, 255, 255, 0.92);
+          border-radius: 16px;
+          padding: 40px 32px; /* 上下左右内边距加大，框整体变大 */
+          width: 100%;
+          max-width: 860px; /* 最大宽度加宽，适配更大屏幕 */
+          margin: 0 auto;
+          color: #222;
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 地图遮罩样式，确保不影响翻页 */
+        .map-box {
+          position: relative;
+          width: 100%;
+          height: 300px;
+          border-radius: 8px;
+          overflow: hidden;
+        }
+        
+        /* 页面2-6基础样式 */
+        .page2, .page3, .page4, .page5 { background: linear-gradient(180deg, #003366, #00507F); color: #fff; }
+        .page6 { background: linear-gradient(180deg, #006699, #003366); color: #fff; }
+        
+        /* 地址导航+地图样式 */
+        .address-info { font-size: 18px; line-height: 2.5; color: #003366; font-weight: 500; margin-bottom: 20px; }
+        .address-info a { color: #006699; text-decoration: none; }
+        .map-box { width: 100%; max-width: 800px; height: 280px; background: #222; border-radius: 8px; position: relative; margin: 0 auto; }
+        .map-box iframe { width: 100%; height: 100%; border: none; border-radius: 8px; }
+        .map-mask { position: absolute; inset: 0; background: transparent; }
+        
+        /* 参会登记表单样式 */
+        .form-box { background: rgba(255,255,255,.95); border: 1px solid rgba(0, 51, 102, .3); border-radius: 8px; padding: 20px; width: 100%; max-width: 800px; text-align: left; }
+        .form { width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+        .form input { padding: 12px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #333; font-size: 16px; }
+        .form button { padding: 12px; background: #006699; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: background .3s; }
+        .form button:hover { background: #003366; }
+        
+        /* 底部感谢/关注 */
+        .page6 { background: linear-gradient(180deg, #006699, #003366); color: #fff; }
+        .page6 .thanks { font-size: 36px; font-weight: bold; margin-bottom: 30px; }
+        .page6 .follow { font-size: 20px; letter-spacing: 2px; }
+        .code-box { width: 180px; height: 180px; background: #fff; border-radius: 8px; margin: 20px auto; }
+        
+        /* 翻页提示 */
+        .swiper-tip { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 14px; color: #999; animation: bounce 1.5s infinite; }
+        @keyframes bounce { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -10px); } }
+        
+        /* 手机端适配 */
+        @media (max-width: 768px) {
+            .invite-page { padding: 20px 15px; }
+            .page1 .title { font-size: 24px; }
+            .page-title { font-size: 24px; }
+            .page-content { font-size: 14px; }
+            .address-info { font-size: 16px; }
+            .page6 .thanks { font-size: 28px; }
+            .map-box { height: 220px; }
+            .form-box { padding: 15px; }
+        }
+
+        /* 第1、6页：文字从上往下渐入 */
+        .page1 > *,
+        .page6 > * {
+          opacity: 0;
+          transform: translateY(-30px);
+          transition: all 0.8s ease 0.3s;
+        }
+        .page1.animate > *,
+        .page6.animate > * {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* 第2-5页：白框从左往右滑出 */
+        .page2 .content-box,
+        .page3 .content-box,
+        .page4 .content-box,
+        .page5 .content-box {
+          opacity: 0;
+          transform: translateX(-80px);
+          transition: all 0.6s ease 0.2s;
+        }
+        .page2.animate .content-box,
+        .page3.animate .content-box,
+        .page4.animate .content-box,
+        .page5.animate .content-box {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        /* 第2-5页：内容延迟渐出 */
+        .page2 .content-box > *,
+        .page3 .content-box > *,
+        .page4 .content-box > *,
+        .page5 .content-box > * {
+          opacity: 0;
+          transform: translateY(-20px);
+          transition: all 0.6s ease 0.7s;
+        }
+        .page2.animate .content-box > *,
+        .page3.animate .content-box > *,
+        .page4.animate .content-box > *,
+        .page5.animate .content-box > * {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* 更明显的背景流动光效 */
+        .flow-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: -1;
+          background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.28) 50%,
+            rgba(255, 255, 255, 0) 100%
+          );
+          background-size: 300% 100%;
+          animation: bgFlow 10s linear infinite;
+          pointer-events: none;
+        }
+        @keyframes bgFlow {
+          0%  { background-position: -300% 0; }
+          100%{ background-position: 300% 0; }
+        }
+
+        /* 音乐按钮 */
+        .music-btn {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          width: 44px;
+          height: 44px;
+          z-index: 9999;
+          background: rgba(255,255,255,0.2);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          backdrop-filter: blur(6px);
+          cursor: pointer;
+        }
+        /* 音符旋转动画 */
+        .music-rotate {
+          animation: musicRotate 3s linear infinite;
+        }
+        @keyframes musicRotate {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        /* 音符图标 */
+        .music-btn::after {
+          content: "♪";
+          font-size: 20px;
+          color: #fff;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 背景音乐：loop=循环播放 preload=自动加载 src=本地音乐路径 -->
+    <audio id="bgMusic" loop preload="auto" src="./bg.mp3"></audio>
+
+    <!-- 音乐控制按钮：点击切换播放/暂停 -->
+    <div class="music-btn" id="musicBtn">♪</div>
+
+    <!-- 邀请函核心容器 -->
+    <div class="invite-swiper swiper">
+        <div class="swiper-wrapper">
+            <!-- 页面1：邀请函封面 -->
+            <div class="invite-page page1 swiper-slide">
+              <div class="flow-bg"></div>
+                <div class="logo">天安联控科技有限公司</div>
+                <div class="year">2026</div>
+                <div class="title">邀请函</div>
+                <div class="en-title">TECHNICAL CONFERENCE | INVITATION</div>
+                <div class="slogan">创 新 · 共 享 · 共 赢</div>
+                <div class="info">
+                    山西潇河国际会展中心 N519-2<br>
+                    2026.4.22-4.24<br>
+                    第二十四届太原煤炭(能源)工业技术与装备展览会
+                </div>
+            </div>
+
+            <!-- 页面2：诚挚邀请 -->
+            <div class="invite-page page2 swiper-slide">
+              <div class="flow-bg"></div>
+              <div class="content-box">
+                  <div class="page-title">诚挚邀请</div>
+                  <div class="en-title">INTERNET TECHNICAL CONFERENCE | INVITATION 山西·太原</div>
+                  <div class="slogan">创 新 · 共 享 · 共 赢</div>
+                  <div class="page-content">
+                      <p>尊敬的嘉宾朋友们：</p>
+                      <p>天安联控科技有限公司诚挚的邀请您参加<span style="color:#003366; font-weight:bold;">2026年4月22日-2026年4月24日</span>于山西潇河国际会展中心召开的第二十四届太原煤炭(能源)工业技术与装备展览会。</p>
+                      <p>此会议将大力推进煤炭产业供给侧结构改革，向数字化、智能化新产业和新业态转型。诚挚的邀请您出席此次展会，共同携手创造煤炭能源工业的美好未来！</p>
+                      <p style="text-align:right;margin-top:15px">天安联控科技有限公司</p>
+                  </div>
+              </div>
+          </div>
+
+            <!-- 页面3：关于我们 -->
+            <div class="invite-page page3 swiper-slide">
+              <div class="flow-bg"></div>
+              <div class="content-box">
+                <div class="page-title">关于我们</div>
+                <div class="en-title">INTERNET TECHNICAL CONFERENCE | INVITATION 山西·太原</div>
+                <div class="slogan">创 新 · 共 享 · 共 赢</div>
+                <div class="page-content">
+                    <p>天安联控科技有限公司（简称:天安联控），成立于2017年6月，生产地址位于晋中市榆次区综改示范区中南高科13栋，占地面积1519.2平方米；建筑面积 1519.2平方米。</p>
+                    <p>是一家集煤矿智能化产品的研发制造、销售、维修、服务为一体高科技企业，主要从事工矿配件、消防设备、工程机械设备及配件、机电设备、金属材料及制品、计算机软硬件的开发及销售；环保节能技术及产品的研发与应用；矿山电子产品的装配及加工；水处理设备的装配；矿用机械设备、防爆设备、通讯设备、电子设备的维修。</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 页面4：地址导航（整合地图） -->
+            <div class="invite-page page4 swiper-slide">
+              <div class="flow-bg"></div>
+              <div class="content-box">
+                <div class="page-title">地址导航</div>
+                <div class="en-title">INTERNET TECHNICAL CONFERENCE | INVITATION 山西·太原</div>
+                <div class="slogan">创 新 · 共 享 · 共 赢</div>
+                <div class="address-info">
+                    <p>📍 地址：<a href="https://maps.qq.com/m/detail/poi/poid=2842196102715086319" target="_blank">山西潇河国际会展中心</a></p>
+                    <p>📞 咨询电话：<a href="tel:13233334111">13233334111</a></p>
+                </div>
+                <div class="map-box" style="position:relative;width:100%;height:300px;border-radius:8px;overflow:hidden;">
+                  <iframe 
+                    src="https://uri.amap.com/marker?position=112.558624,37.765291&name=山西潇河国际会展中心"
+                    width="100%" 
+                    height="100%" 
+                    frameborder="0"
+                    style="border-radius:8px;"
+                    sandbox="allow-same-origin allow-scripts"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+
+          <!-- 页面5：参会登记（发邮箱版） -->
+          <div class="invite-page page5 swiper-slide">
+            <div class="flow-bg"></div>
+            <div class="content-box">
+              <div class="page-title">参会登记</div>
+              <div class="en-title">INTERNET TECHNICAL CONFERENCE | INVITATION 山西·太原</div>
+              <div class="slogan">创 新 · 共 享 · 共 赢</div>
+              <div class="form-box">
+                <form 
+                  action="https://formsubmit.co/jiakaikai@talkkj.com"
+                  method="POST"
+                  target="hiddenFrame"
+                >
+                  <input type="hidden" name="_captcha" value="false">
+                  <input type="hidden" name="_next" value="#">
+                  
+                  <input type="text" name="姓名" placeholder="姓名" required>
+                  <input type="tel" name="手机号" placeholder="手机号" required>
+                  <input type="text" name="备注" placeholder="备注（选填）">
+                  <button type="submit">提交登记</button>
+                </form>
+                <iframe name="hiddenFrame" style="display:none;"></iframe>
+              </div>
+            </div>
+          </div>
+
+            <!-- 页面6: 关注我们/感谢 -->
+            <div class="invite-page page6 swiper-slide">
+              <div class="flow-bg"></div>
+                <div class="thanks">T H A N K  Y O U</div>
+                <div class="follow">欢迎关注我们·合作共赢未来</div>
+                <!-- 可放入二维码图片 -->
+                <div class="code-box">
+                    <img src="C:/Users/长风/Desktop/邀请函/qrcode.jpg"
+                        style="width: 180px; height: 180px; display: block; margin: 0 auto;">
+                </div>
+                <div class="slogan" style="margin-top: 30px;">创 新 · 共 享 · 共 赢</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 翻页提示 -->
+    <div class="swiper-tip">向上滑动查看下一页</div>
+
+    <!-- Swiper核心JS -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
+    <script>
+        // 页面完全加载后再初始化Swiper，避免地图抢占焦点
+        window.addEventListener('DOMContentLoaded', function() {
+          setTimeout(() => {
+            const swiper = new Swiper('.invite-swiper', {
+              direction: 'vertical',
+              speed: 500,
+              mousewheel: true,
+              touchRatio: 1.2,
+              initialSlide: 0,
+              allowTouchMove: true,
+              nested: true,
+              touchAngle: 45,
+              resistanceRatio: 0,
+
+              on: {
+                init: function() {
+                  this.slideTo(0, 0);
+                  
+                  setTimeout(() => {
+                    this.slides[this.activeIndex].classList.add('animate');
+                  }, 300);
+                },
+                slideChangeTransitionEnd: function() {
+                  this.slides.forEach(el => el.classList.remove('animate'));
+                  this.slides[this.activeIndex].classList.add('animate');
+                  document.querySelector('.swiper-tip').style.opacity = 0;
+                }
+              }
+            });
+
+            // 滑动后隐藏提示
+            swiper.on('slideChange', () => {
+              document.querySelector('.swiper-tip').style.opacity = 0;
+            });
+
+            // 表单提交弹窗（不影响音乐）
+            document.querySelector('form').addEventListener('submit', function(e) {
+              const self = this;
+              setTimeout(() => {
+                alert('感谢填写，您的参会登记已提交成功！');
+                self.reset();
+              }, 800);
+            });
+
+           // ===================== 音乐功能（最终稳定版：点击/滑动任意操作都能播放）=====================
+            const bgMusic = document.getElementById('bgMusic');
+            const musicBtn = document.getElementById('musicBtn');
+            let isPlay = true;
+            let canPlay = false;
+
+            // 只执行一次的授权播放
+            function startPlay() {
+              if (!canPlay) {
+                bgMusic.play().catch(() => {});
+                musicBtn.classList.add('music-rotate');
+                canPlay = true;
+              }
+            }
+
+            // 监听：点击、滑动、滚轮、翻页，任意一个都能触发播放
+            document.addEventListener('click', startPlay);
+            document.addEventListener('touchmove', startPlay);
+            document.addEventListener('wheel', startPlay);
+            swiper.on('slideChange', startPlay);
+
+            // 点击按钮控制暂停/继续
+            musicBtn.addEventListener('click', () => {
+              if (!canPlay) return;
+
+              if (isPlay) {
+                bgMusic.pause();
+                musicBtn.classList.remove('music-rotate');
+              } else {
+                bgMusic.play();
+                musicBtn.classList.add('music-rotate');
+              }
+              isPlay = !isPlay;
+            });
+
+          }, 200);
+        });
+    </script>
+</body>
+</html>
